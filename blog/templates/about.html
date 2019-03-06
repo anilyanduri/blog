@@ -1,0 +1,31 @@
+    {% extends "base.html" %}
+    {% block body %}
+            <div class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url({{url_for('static', filename='images/Anil_back.JPG')}});" data-stellar-background-ratio="0.5">
+                <div class="overlay"></div>
+                <div class="js-fullheight d-flex justify-content-center align-items-center">
+                    <div class="col-md-8 text text-center">
+                        <div class="img mb-4" style="background-image: url({{url_for('static', filename='images/Anil.jpg')}});"></div>
+                        <div class="desc">
+                            <h2 class="subheading">Hello I'm</h2>
+                            <h1 class="mb-4">Anil Yanduri</h1>
+                            <p class="mb-4">
+                                I'm based out of Bengaluru, Karnataka.
+                                Originally from Machilipatnam, AP.
+                                I'm a professional software engineer.
+                                A traveler, An avid amateur photographer.
+                                Full time employee at one of Indians biggest company in its space.
+                            </p>
+                            <ul class="ftco-social mt-3">
+                                <li class="ftco-animate"><a target="_blank" href="https://www.linkedin.com/in/anilyanduri/"><span class="icon-linkedin"></span></a></li>
+                                <li class="ftco-animate"><a target="_blank" href="https://github.com/anilyanduri/"><span class="icon-github"></span></a></li>
+                                <li class="ftco-animate"><a target="_blank" href="https://twitter.com/anilyln"><span class="icon-twitter"></span></a></li>
+                                <!--<li class="ftco-animate"><a href="_blank"><span class="icon-facebook"></span></a></li>-->
+                                <li class="ftco-animate"><a target="_blank" href="https://www.instagram.com/anil.yanduri/"><span class="icon-instagram"></span></a></li>
+                                <li class="ftco-animate"><a target="_blank" href="https://500px.com/anilyanduri"><span class="icon-500px"></span></a></li>
+
+                              </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    {% endblock %}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tag | {{ title }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/multiselect/jquery.magicsearch1.css')}}">
+
+
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/open-iconic-bootstrap.min.css")}}'>
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/animate.css")}}'>
+
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/owl.carousel.min.css")}}'>
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/owl.theme.default.min.css")}}'>
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/magnific-popup.css")}}'>
+
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/aos.css")}}'>
+
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/ionicons.min.css")}}'>
+
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/bootstrap-datepicker.css")}}'>
+    <!--<link rel="stylesheet" href='{{ url_for("static", filename="css/jquery.timepicker.css")}}'>-->
+
+
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/flaticon.css")}}'>
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/icomoon.css")}}'>
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/style.css")}}'>
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/flaticon.css")}}'>
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/icomoon.css")}}'>
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/style.css")}}'>
+    {% import "bootstrap/wtf.html" as wtf %}
+</head>
+<body>
+    <section class="ftco-section contact-section">
+        <div class="col-md-12 mb-4">
+            <h2 class="h4 font-weight-bold">Blogs</h2>
+        </div>
+        <div class="container">
+            {% if form.id.data is none or form.id.data == '' %}
+            <form  action="/tag/new" method="post">
+            {% else %}
+            <form action="/tag/edit/{{ form.id.data }}" method="post">
+            {% endif %}
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ wtf.form_field(form.tag_name) }}
+                </div>
+                <div class="form-group">
+                    {{ wtf.form_field(form.category) }}
+                </div>
+                <div class="form-group">
+                    {{ wtf.form_field(form.submit) }}
+                    <a href="/tag/new">New tag</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

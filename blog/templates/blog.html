@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block body %}
+<!--<section class="home-slider js-fullheight owl-carousel">-->
+    <!--<div class="slider-item js-fullheight"-->
+         <!--style="background-image:url({{url_for('static', filename='images/bg_2.jpg')}});">-->
+        <!--<div class="overlay"></div>-->
+        <!--<div class="container-fluid">-->
+            <!--<div class="row no-gutters slider-text slider-text-2 js-fullheight align-items-center justify-content-center"-->
+                 <!--data-scrollax-parent="true">-->
+                <!--<div class="col-md-10 text-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">-->
+                    <!--<h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Discover the-->
+                        <!--Place</h1>-->
+                    <!--<p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Find great places to stay, eat,-->
+                        <!--shop, or visit from local experts</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="slider-item js-fullheight"-->
+         <!--style="background-image:url({{url_for('static', filename='images/bg_3.jpg')}});">-->
+        <!--<div class="overlay"></div>-->
+        <!--<div class="container-fluid">-->
+            <!--<div class="row no-gutters slider-text slider-text-2 js-fullheight align-items-center justify-content-center"-->
+                 <!--data-scrollax-parent="true">-->
+                <!--<div class="col-md-10 text-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">-->
+                    <!--<h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Explore and-->
+                        <!--travel</h1>-->
+                    <!--<p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Find great places to stay, eat,-->
+                        <!--shop, or visit from local experts</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</section>-->
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    {% for post in posts %}
+                    <div class="col-md-12">
+                        <div class="blog-entry ftco-animate">
+                            <!--<a href="#" class="img" style="background-image: url({{url_for('static', filename='images/image_1.jpg')}});"></a>-->
+                            <div class="text pt-2 mt-3">
+                                <span class="category mb-1 d-block">
+                                    <a href="/blog?category={{ post.category.tag_name }}">
+                                        {{ post.category.tag_name }}
+                                    </a>
+                                </span>
+                                <h3 class="mb-4"><a href="/blog/{{ post.href }}">{{ post.title }}</a></h3>
+                                <section>
+                                    <div>
+                                        {{ post.body[0:500]|safe}} ...
+                                    </div>
+                                </section>
+                                <div class="author mb-4 d-flex align-items-center">
+                                    <a href="/" class="img"
+                                       style="background-image: url({{url_for('static',filename='images/anil.jpg')}});">
+                                    </a>
+                                    <div class="ml-3 info">
+                                        <span>Written by</span>
+                                        <h3>
+                                            <a href="/">Anil Yanduri</a>,
+                                            <span>
+                                                {{ post.published_at.strftime("%b. %d, %Y") }}
+                                            </span>
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div class="meta-wrap d-md-flex align-items-center">
+                                    <div class="half order-md-last text-md-right">
+                                        <p class="meta">
+                                            <!--<span><i class="icon-heart"></i>3</span>-->
+                                            <!--<span><i class="icon-eye"></i>100</span>-->
+                                            <span>
+                                                <i class="icon-comment"></i>
+                                                <a href="/blog/{{ post.href }}#disqus_thread"></a>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="half">
+                                        <p>
+                                            <a href="/blog/{{post.href}}" class="btn btn-primary p-3 px-xl-4 py-xl-3">
+                                                Continue Reading
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="row mt-5">
+                    <div class="col">
+                        <div class="block-27">
+                            <ul>
+                                {% if first_page %}
+                                <li><a href="{{ first_page }}">&lt;&lt;</a></li>
+                                {% endif %}
+                                {% if prev_url %}
+                                <li><a href="{{ prev_url }}">&lt;</a></li>
+                                {% endif %}
+                                {% for _page_no in page_nos %}
+                                    {% if page_no == _page_no %}
+                                    <li class="active"><span>{{page_no}}</span></li>
+                                    {% else %}
+                                    <li>
+                                        <a href="{{url_for('posts.blog_list', page=_page_no, tag_id=tag_id,
+                                                                              category_id=category_id)}}">
+                                            {{_page_no}}
+                                        </a>
+                                    </li>
+                                    <!--<li><a href="/blog?page={{_page_no}}&tag_id={{tag_id}}">{{_page_no}}</a></li>-->
+                                    {% endif %}
+                                {% endfor %}
+                                {% if next_url %}
+                                <li><a href="{{ next_url }}">&gt;</a></li>
+                                {% endif %}
+                                {% if last_page %}
+                                <li><a href="{{ last_page }}">&gt;&gt;</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- END-->
+            {% include 'blog_right_column.html'%}
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}
+
+{% block footer_js %}
+<script id="dsq-count-scr" src="//anilyanduri.disqus.com/count.js" async></script>
+{% endblock %}

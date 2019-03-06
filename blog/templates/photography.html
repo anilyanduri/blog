@@ -1,0 +1,36 @@
+    {% extends "base.html" %}
+    {% block body %}
+            <section class="ftco-section-2">
+                <div class="photograhy">
+                    <div class="row no-gutters">
+                        {% for photo in photographs %}
+                        <div class="col-md-4 ftco-animate">
+                            <a href="{{ photo.photograph_url }}"
+                               class="photography-entry img image-popup d-flex justify-content-center align-items-center"
+                               style="background-image: url({{ photo.photograph_url }});"
+                               title="{{ photo.title|safe }}"
+                            >
+                                <div class="overlay">
+                                </div>
+                                <div class="text text-center">
+                                    <h3>{{ photo.title|safe }}</h3>
+                                    <span>{{ photo.tag_names() }}</span>
+                                    {% if photo.capture_date is not none %}
+                                    <br>
+                                    <span><i class="icon-calendar" > {{ photo.capture_date.strftime("%b. %d, %Y") }}</i></span>
+                                    {% endif %}
+                                    {% if photo.location is not none%}
+                                    <br>
+                                    <span><i class="icon-my_location" >{{photo.location}}</i></span>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+    {% endblock %}
+{% block footer %}
+    {% include 'photo_footer.html' %}
+{% endblock %}

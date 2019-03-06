@@ -1,0 +1,46 @@
+    {% extends "base.html" %}
+    {% block body %}
+            <section class="ftco-section-2">
+                <div class="photograhy">
+                    <div class="row no-gutters">
+                        {% for photo in photos %}
+                        <div class="col-md-4 ftco-animate">
+                            <a href="{{ photo.photograph_url }}"
+                               class="photography-entry img image-popup d-flex justify-content-center align-items-center"
+                               style="background-image: url({{ photo.photograph_url }});">
+                                <div class="overlay"></div>
+                                <div class="text text-center">
+                                    <h3>{{ photo.title|safe }}</h3>
+                                    <span>{{ photo.tag_names() }}</span>
+                                    {% if photo.capture_date is not none %}
+                                    <br>
+                                    <span><i class="icon-calendar" > {{ photo.capture_date.strftime("%b. %d, %Y") }}</i></span>
+                                    {% endif %}
+                                    {% if photo.location is not none%}
+                                    <br>
+                                    <span><i class="icon-my_location" >{{photo.location}}</i></span>
+                                    {% endif %}
+                                </div>
+                            </a>
+                            <a href="{{url_for('posts.edit_photo', photo_id=photo.id)}}" >Edit</a>
+                            {% if photo.status != "PUBLISHED" %}
+                            <a href="javascript:do_post('/photo/publish/{{photo.id}}')" >Publish</a>
+                            {% else %}
+                            <a href="javascript:do_post('/photo/unpublish/{{photo.id}}')" >Un Publish</a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+    {% endblock %}
+    {% block footer_js %}
+        <script language="javascript">
+           function do_post(location){
+              $.post(location);
+           }
+        </script>
+    {% endblock %}
+{% block footer %}
+    {% include 'photo_footer.html' %}
+{% endblock %}

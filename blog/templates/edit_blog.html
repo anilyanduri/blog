@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog | {{ title }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/open-iconic-bootstrap.min.css")}}'>
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/animate.css")}}'>
+
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/owl.carousel.min.css")}}'>
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/owl.theme.default.min.css")}}'>
+
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/aos.css")}}'>
+
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/ionicons.min.css")}}'>
+    <link href="{{ url_for('static', filename='css/multiselect/jquery.magicsearch.css')}}" rel="stylesheet">
+
+    <!--<script src='{{url_for("static", filename="js/multiselect/jquery-2.2.3.js")}}'></script>-->
+    <!--<script src='{{url_for("static", filename="js/jquery-migrate-3.0.1.min.js")}}'></script>-->
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+    <script src="{{ url_for('static', filename='js/multiselect/jquery.autocomplete.multiselect.js')}}"></script>
+    <script >
+         var dataSource = {{ all_tags_json|safe }}
+         $(function() {
+             $('#tags').magicsearch({
+                                       id: 'id',
+                               dataSource: dataSource,
+                                   fields: ['tag_name'],
+                                   format: '%tag_name%',
+                                 multiple: true,
+                               multiField: 'tag_name',
+                               multiStyle: {
+                                                space: 5,
+                                                width: 80
+                                           },
+                                  success: function($input) {
+                                        $('#tag_ids').val($input.attr('data-id'));
+                                  }
+                              });
+              $('#category').magicsearch({
+                                       id: 'id',
+                               dataSource: dataSource,
+                                   fields: ['tag_name'],
+                                   format: '%tag_name%',
+                                 multiple: false,
+                                  success: function($input) {
+                                        $('#category_id').val($input.attr('data-id'));
+                                  }
+                              });
+         });
+    </script>
+    <!-- https://www.dingyi1993.com/blog/magicsearch -->
+
+
+    <!-- https://www.tiny.cloud/docs/demo/full-featured/ -->
+    <!-- https://www.webdesignerdepot.com/2008/12/20-excellent-free-rich-text-editors/ -->
+    <!--<script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=ilk86u47puyd01w0bq065zrkp59q0ongurb1xdyr8uugwqap"></script>-->
+    <!--<script>-->
+        <!--/*tinymce.init({ selector:'textarea' });*/-->
+        <!--tinymce.init({-->
+           <!--selector: 'textarea',-->
+           <!--plugins: 'a11ychecker advcode formatpainter linkchecker media mediaembed pageembed permanentpen powerpaste tinycomments tinydrive tinymcespellchecker',-->
+           <!--toolbar: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',-->
+           <!--tinycomments_mode: 'embedded',-->
+           <!--tinycomments_author: 'Author name'-->
+        <!--});-->
+    <!--</script>-->
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/flaticon.css")}}'>
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/icomoon.css")}}'>
+    <link rel="stylesheet" href='{{ url_for("static", filename="css/style.css")}}'>
+    {% import "bootstrap/wtf.html" as wtf %}
+</head>
+<body>
+    <section class="ftco-section contact-section">
+        <div class="col-md-12 mb-4">
+            <h2 class="h4 font-weight-bold">Blogs</h2>
+        </div>
+        <div class="container">
+            {% if form.id.data is none or form.id.data == '' %}
+            <form  action="/blog/new" method="post">
+            {% else %}
+            <form action="/blog/edit/{{ form.id.data }}" method="post">
+            {% endif %}
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ wtf.form_field(form.title) }}
+                    <!--<input type="text" class="form-control" placeholder="Title">-->
+                </div>
+                <div class="form-group">
+                    <input class="magicsearch" name="tags" id="tags" data-id="{{ '' if form.tag_ids.data is none else form.tag_ids.data}}" placeholder="search tags...">
+                </div>
+                <div class="form-group">
+                    <input class="magicsearch" name="category" id="category" data-id="{{ '' if form.category_id.data is none else form.category_id.data}}" placeholder="Search Category...">
+                </div>
+                <div class="form-group">
+                    {{ wtf.form_field(form.body) }}
+                    <!--<textarea name="" id="" cols="30" rows="100" class="form-control" placeholder="Message">-->
+                    <!--</textarea>-->
+                </div>
+                <div class="form-group">
+                    {{ wtf.form_field(form.submit) }}
+                    <a href="/blog/new">New Blog</a>
+                    <!--<input type="submit" value="Create Blog" class="btn btn-primary py-3 px-5">-->
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

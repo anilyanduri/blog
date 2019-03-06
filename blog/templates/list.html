@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block body %}
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    {% for post in posts %}
+                    <div class="col-md-12">
+                        <div class="blog-entry ftco-animate">
+                            <!--<a href="#" class="img" style="background-image: url({{url_for('static', filename='images/image_1.jpg')}});"></a>-->
+                            <div class="text pt-2 mt-3">
+                                <span class="category mb-1 d-block"><a href="#">{{ post.category.tag_name }}</a></span>
+                                <h3 class="mb-4"><a href="/blog/{{post.href}}">{{ post.title }}</a></h3>
+                                <div>{{ post.body[0:500]|safe }}...</div>
+                                <div class="meta-wrap d-md-flex align-items-center">
+                                    <div class="half order-md-last text-md-right">
+                                        <p class="meta">
+                                            <!--<span><i class="icon-heart"></i>3</span>-->
+                                            <!--<span><i class="icon-eye"></i>100</span>-->
+                                            <span><i class="icon-comment"></i>
+                                            <a href="/blog/{{ post.href }}#disqus_thread"></a>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="half">
+                                        <p>
+                                            {% if post.status != "PUBLISHED" %}
+                                            <form method="POST" action="/blog/publish/{{post.id}}">
+                                                <a href="/blog/edit/{{post.id}}" class="btn btn-primary p-3 px-xl-4 py-xl-3">
+                                                    Edit Blog
+                                                </a>
+                                                <input value="Publish" type="submit" class="btn btn-primary p-3 px-xl-4 py-xl-3"/>
+                                            </form>
+                                            {% else %}
+                                            <form method="POST" action="/blog/unpublish/{{post.id}}">
+                                                <a href="/blog/edit/{{post.id}}" class="btn btn-primary p-3 px-xl-4 py-xl-3">
+                                                    Edit Blog
+                                                </a>
+                                                <input value="Remove Blog" type="submit" class="btn btn-primary p-3 px-xl-4 py-xl-3"/>
+                                            </form>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div><!-- END-->
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block footer_js %}
+<script id="dsq-count-scr" src="//anilyanduri.disqus.com/count.js" async></script>
+{% endblock %}

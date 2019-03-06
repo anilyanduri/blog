@@ -1,0 +1,97 @@
+    {% extends "base.html" %}
+    {% block body %}
+		{% import "bootstrap/wtf.html" as wtf %}
+        <section class="ftco-section contact-section">
+	      <div class="container">
+	        <div class="row d-flex mb-5 contact-info">
+	          <div class="col-md-12 mb-4">
+	            <h2 class="h4 font-weight-bold">Contact Information</h2>
+	          </div>
+	          <div class="w-100"></div>
+	          <div class="col-md-3">
+	            <p><span>Address:</span> Bangalore, Karnataka</p>
+	          </div>
+	          <div class="col-md-3">
+	            <p><span>Phone:</span> <a href="tel://9xxxxxxxxx">+91 9xx xxxx xxx </a></p>
+	          </div>
+	          <div class="col-md-3">
+	            <p><span>Email:</span> <a href="mailto:anil.yanduri@gmail.com">anil.yanduri@gmail.com</a></p>
+	          </div>
+	          <div class="col-md-3">
+	            <p><span>Website</span> <a href="http://www.anilyanduri.com">http://www.anilyanduri.com</a></p>
+	          </div>
+	        </div>
+	        <div class="row block-9">
+	          <div class="col-md-6 order-md-last pr-md-5">
+				{% if form is not none %}
+	            <form action="/contact" method="post">
+					{{ form.hidden_tag() }}
+	              <div class="form-group">
+					  {{ form.name }}
+	                <!--<input type="text" class="form-control" name="" placeholder="Your Name">-->
+	              </div>
+	              <div class="form-group">
+	                <!--<input type="text" class="form-control" placeholder="Your Email">-->
+					  {{ form.email }}
+	              </div>
+	              <div class="form-group">
+	                <!--<input type="text" class="form-control" placeholder="Subject">-->
+					  {{ form.subject }}
+	              </div>
+	              <div class="form-group">
+	                <!--<textarea name="" id="" cols="30" rows="5" class="form-control" placeholder="Message"></textarea>-->
+					  {{ form.message }}
+	              </div>
+				  <div class="g-recaptcha form-group" data-sitekey="6LdGf5UUAAAAAAaYE0WoNInyJJK7PopHIz3PiYC9"
+					   data-callback="verifyCallback" data-expired-callback="expiryCallback">
+
+				  </div>
+	              <div class="form-group" id="form_submit_div" style="display:none;">
+	                <input type="submit" id="form_submit" value="Send Message" class="btn btn-primary py-3 px-5">
+	              </div>
+	            </form>
+				{% else %}
+				  <div class="form-group">
+					  <p>Your contact request is registered! You will be contacted soon.</p>
+				  </div>
+				{% endif %}
+	          </div>
+
+	          <div class="col-md-6">
+	          	<div id="map" >
+					<a class="justify-content-center align-items-center photography-entry img " style="background-image: url({{ url_for('static', filename='images/blr-map.png') }})"></a>
+				</div>
+	          </div>
+	        </div>
+	      </div>
+	    </section>
+    {% endblock %}
+
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}
+	{% block header_js %}
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+		<script>
+		  var verifyCallback = function(response) {
+	      <!--alert(response);-->
+			$('#recaptcha_response').val(response);
+			$('#form_submit_div').show();
+		  };
+		  var expiryCallback = function(){
+			$('#recaptcha_response').val(''	);
+			$('#form_submit_div').hide();
+		  };
+		</script>
+	{% endblock %}
+
+	{% block footer_js1 %}
+	  <script src="https://www.google.com/recaptcha/api.js?render={{site_key}}"></script>
+	  <script>
+		  grecaptcha.ready(function() {
+			  grecaptcha.execute('{{site_key}}', {action: 'contact'}).then(function(token) {
+
+			  });
+		  });
+	  </script>
+	{% endblock%}
