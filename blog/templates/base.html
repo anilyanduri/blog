@@ -4,6 +4,10 @@
     <title>Anil Yanduri - {{ title }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon/apple-touch-icon.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon/favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon/favicon-16x16.png')}}">
+    <link rel="manifest" href="{{ url_for('static', filename='images/favicon/site.webmanifest')}}">
 
     <!--<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">-->
     <!--<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700" rel="stylesheet">-->
@@ -455,6 +459,12 @@
   <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>-->
   <!--<script src='{{url_for("static", filename="js/google-map.js")}}'></script>-->
   <script src='{{url_for("static", filename="js/main.js")}}'></script>
+  <script src="https://www.google.com/recaptcha/api.js?render={{site_key_v3}}"></script>
+  <script>
+      grecaptcha.ready(function() {
+          grecaptcha.execute('{{site_key_v3}}', {action: '{{"home" if current_action == "" else current_action}}'});
+      });
+  </script>
     {% block footer_js %}
     {% endblock %}
   </body>

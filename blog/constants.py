@@ -51,5 +51,8 @@ KEY_WORDS = [("Adventures", "Adventures"), ("Advertising", "Advertising"), ("Adv
              ("Wildlife", "Wildlife"), ("Wine", "Wine"), ("Women", "Women"), ("WordPress", "WordPress"),
              ("World", "World"), ("World News", "World News"), ("Writing ", "Writing "), ("YouTube", "YouTube")]
 
-rECAPTCHA_SITE_KEY = '6LcOf5UUAAAAAOaeMMzkOQm2DpwzLqE54lAgUHHo'
-rECAPTCHA_SECRET = '6LdGf5UUAAAAAFA1wuQWtdaCPQ5sCitoHnGSb6Ch'
+rECAPTCHA_SITE_KEY_V3 = '6LcOf5UUAAAAAOaeMMzkOQm2DpwzLqE54lAgUHHo'
+rECAPTCHA_SECRET_V3 = '6LdGf5UUAAAAAFA1wuQWtdaCPQ5sCitoHnGSb6Ch'
+
+rECAPTCHA_SITE_KEY_V2 = '6LdGf5UUAAAAAAaYE0WoNInyJJK7PopHIz3PiYC9'
+rECAPTCHA_SECRET_V2 = '6LdGf5UUAAAAAFA1wuQWtdaCPQ5sCitoHnGSb6Ch'

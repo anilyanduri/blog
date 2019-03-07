@@ -1,6 +1,6 @@
 from . import posts
 from blog import db
-from blog.constants import rECAPTCHA_SITE_KEY, rECAPTCHA_SECRET
+from blog.constants import rECAPTCHA_SITE_KEY_V2, rECAPTCHA_SECRET_V2, rECAPTCHA_SITE_KEY_V3
 from flask import render_template, redirect, url_for, request
 from forms import PostForm, PhotoForm, TagForm, ContactMeForm
 from blog.models import Post, Tag, post_tags, photo_tags, Photograph, ContactRequest
@@ -40,7 +40,8 @@ def helpers_for_templates():
                 top_categories=top_categories(),
                 archives=archives(),
                 photo_archives=photo_archives(),
-                top_photo_tags=top_photo_tags())
+                top_photo_tags=top_photo_tags(),
+                site_key_v2=rECAPTCHA_SITE_KEY_V2, site_key_v3=rECAPTCHA_SITE_KEY_V3)
 
 
 @posts.route('/')
@@ -100,7 +101,7 @@ def contact():
             if verify_recaptcha(form.recaptcha_response.data):
                 create_contact_request(form)
                 form = None
-    return render_template('contact.html', title="Contact Me", form=form, site_key=rECAPTCHA_SITE_KEY)
+    return render_template('contact.html', title="Contact Me", form=form)
 
 
 @posts.route('/about')
@@ -186,7 +187,7 @@ def create_contact_request(form):
 
 def verify_recaptcha(captcha_response_code):
     url = "https://www.google.com/recaptcha/api/siteverify"
-    payload = {'secret': rECAPTCHA_SECRET, 'response': captcha_response_code}
+    payload = {'secret': rECAPTCHA_SECRET_V2, 'response': captcha_response_code}
     response = requests.post(url, data=payload)
     success = json.loads(response.text)['success']
     print(success)
