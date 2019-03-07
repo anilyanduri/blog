@@ -5,3 +5,4 @@ venv/
 .eggs/
 *.egg-info/
 log.txt
+.DS_Store
