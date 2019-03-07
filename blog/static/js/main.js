@@ -168,7 +168,15 @@
     image: {
       verticalFit: true,
       titleSrc: function(item) {
-				return item.el.attr('title') + '<small>by Anil Yanduri</small>';
+                var return_string = item.el.attr('title');
+                if (item.el.attr('data-location') != ""){
+				    return_string = return_string  + '<br> <i class="icon-my_location" > ' + item.el.attr('data-location') + '</i> ';
+				}
+//				if(item.el.attr('data-date') != ""){
+//				    return_string = return_string + '<br> <i class="icon-calendar" > ' + item.el.attr('data-date') + '</i> ';
+//				}
+				return_string = return_string + '<small>by Anil Yanduri</small>';
+				return return_string
 			}
     },
     zoom: {

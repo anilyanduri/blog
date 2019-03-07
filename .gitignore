@@ -4,3 +4,4 @@
 venv/
 .eggs/
 *.egg-info/
+log.txt

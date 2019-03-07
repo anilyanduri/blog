@@ -8,7 +8,8 @@
                             <a href="{{ photo.photograph_url }}"
                                class="photography-entry img image-popup d-flex justify-content-center align-items-center"
                                style="background-image: url({{ photo.photograph_url }});"
-                               title="{{ photo.title|safe }}"
+                               title="{{ photo.title|safe }}" data-location="{{photo.location if photo.location is not none else ''}}"
+                               data-date="{{photo.capture_date.strftime('%b. %d, %Y') if photo.capture_date is not none else ''}}"
                             >
                                 <div class="overlay">
                                 </div>
