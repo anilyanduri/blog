@@ -12,7 +12,11 @@ db = SQLAlchemy()
 
 
 def page_not_found(e):
-  return render_template('404.html'), 404
+    return render_template('404.html'), 404
+
+
+def something_went_wrong(e):
+    return render_template('500.html'), 500
 
 
 def create_app(config_name):
@@ -20,6 +24,7 @@ def create_app(config_name):
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
     app.register_error_handler(404, page_not_found)
+    app.register_error_handler(500, something_went_wrong)
     from blog import models
     db.init_app(app)
     migrate = Migrate(app, db)
