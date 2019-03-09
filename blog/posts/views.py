@@ -82,7 +82,7 @@ def photography():
     # if _all == 1:
     #     photos = photos.order_by(Photograph.capture_date.desc()).paginate(page_no, 12, False)
     # else:
-    photos = photos.order_by(Photograph.capture_date.desc()).paginate(page_no, 9, False)
+    photos = photos.order_by(Photograph.capture_date.desc()).paginate(page_no, 12, False)
 
     next_url = url_for('posts.photography', page=photos.next_num, year=year, month=month,
                        category_id=category_id, category=category) if photos.has_next else None
