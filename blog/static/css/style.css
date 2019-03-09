@@ -8233,6 +8233,26 @@ textarea.form-control {
       color: #fff;
       border: 1px solid transparent; }
 
+.block-27-1 ul {
+  padding: 0;
+  margin: 0; }
+  .block-27-1 ul li {
+    display: inline-block;
+    margin-bottom: 4px;
+    font-weight: 200; }
+    .block-27-1 ul li a, .block-27-1 ul li span {
+      border: 1px solid #f05d23;
+      text-align: center;
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 75%; }
+    .block-27-1 ul li.active a, .block-27-1 ul li.active span {
+      background: #f05d23;
+      color: #fff;
+      border: 1px solid transparent; }
+
 .contact-section .contact-info p a {
   color: #1a1a1a; }
 

@@ -29,6 +29,38 @@
                         </div>
                         {% endfor %}
                     </div>
+                    <div class="row mt-1">
+                    <div class="col" style="text-align: center !important;">
+                        <div class="block-27-1">
+                            <ul>
+                                {% if first_page %}
+                                <li><a href="{{ first_page }}">&lt;&lt;</a></li>
+                                {% endif %}
+                                {% if prev_url %}
+                                <li><a href="{{ prev_url }}">&lt;</a></li>
+                                {% endif %}
+                                {% for _page_no in page_nos %}
+                                    {% if page_no == _page_no %}
+                                    <li class="active"><span>{{page_no}}</span></li>
+                                    {% else %}
+                                    <li>
+                                        <a href="{{url_for('posts.photography', page=_page_no, category=category,
+                                                             year=year, month=month, category_id=category_id)}}">
+                                            {{_page_no}}
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if next_url %}
+                                <li><a href="{{ next_url }}">&gt;</a></li>
+                                {% endif %}
+                                {% if last_page %}
+                                <li><a href="{{ last_page }}">&gt;&gt;</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </section>
     {% endblock %}

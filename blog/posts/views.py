@@ -79,13 +79,32 @@ def photography():
         photos = photos.filter(db.func.year(Photograph.capture_date) == year)
         _all = 1
 
-    if _all == 1:
-        photos = photos.order_by(Photograph.capture_date.desc()).all()
-    else:
-        photos = photos.order_by(Photograph.capture_date.desc()).paginate(page_no, 12, False).items
+    # if _all == 1:
+    #     photos = photos.order_by(Photograph.capture_date.desc()).paginate(page_no, 12, False)
+    # else:
+    photos = photos.order_by(Photograph.capture_date.desc()).paginate(page_no, 9, False)
 
-    return render_template('photography.html', title="Photography", photographs=photos,
-                           category_id=category_id)
+    next_url = url_for('posts.photography', page=photos.next_num, year=year, month=month,
+                       category_id=category_id, category=category) if photos.has_next else None
+    prev_url = url_for('posts.photography', page=photos.prev_num, year=year, month=month,
+                       category_id=category_id, category=category) if photos.has_prev else None
+    pages = photos.pages
+    start = page_no - 2
+    if start < 1:
+        start = 1
+
+    first_page = url_for('posts.photography', page=1, year=year, month=month,
+                         category_id=category_id, category=category) if start != page_no else None
+    end = page_no + 2
+    if end > pages:
+        end = pages
+
+    last_page = url_for('posts.photography', page=photos.pages, year=year, month=month,
+                        category_id=category_id, category=category) if end != page_no else None
+    page_nos = range(start, end+1)
+    return render_template('photography.html', title="Photography", photographs=photos.items, year=year, month=month,
+                           category_id=category_id, next_url=next_url, prev_url=prev_url, category=category,
+                           first_page=first_page, last_page=last_page, page_nos=page_nos, page_no=page_no)
 
 
 @posts.route('/travel')

@@ -5,7 +5,7 @@
             <div class="ftco-footer-widget mb-4 ml-md-4">
               <h2 class="ftco-heading-2">Category</h2>
               <ul class="list-unstyled categories">
-                    <li><a href="/photography?all=1">All<span></span></a></li>
+                    <!--<li><a href="/photography?all=1">All<span></span></a></li>-->
               {% for tag_name, tag_id, count in top_photo_tags %}
                     <li><a href="/photography?category={{tag_name}}">{{tag_name}} <span>({{count}})</span></a></li>
               {% endfor %}
