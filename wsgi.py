@@ -2,7 +2,7 @@
 
 from blog import create_app
 
-config_name = 'PRODUCTION'
+config_name = 'production'
 app = create_app(config_name)
 
 
