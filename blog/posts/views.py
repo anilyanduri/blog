@@ -231,178 +231,178 @@ def all_photos():
     photos = Photograph.query.filter(Photograph.status.in_(statues)).\
                 order_by(Photograph.capture_date.desc()).all()#.paginate(page, 4, False)
     return render_template('photo_list.html', photos=photos, title="All articles")
-
-
-@posts.route('/blog/publish/<string:post_id>', methods=["POST"])
-def publish(post_id):
-    _post = Post.query.filter_by(id=post_id).first()
-    _post.status = "PUBLISHED"
-    _post.href = Post.generate_href(_post.title)
-    _post.published_at = datetime.now()
-    db.session.add(_post)
-    db.session.commit()
-    return render_template('blog_single.html', title="Blog", post=_post)
-
-
-@posts.route('/blog/unpublish/<string:post_id>', methods=["POST"])
-def unpublish(post_id):
-    _post = Post.query.filter_by(id=post_id).first()
-    _post.status = "DRAFT"
-    # _post.href = Post.generate_href(_post.title)
-    _post.published_at = None
-    db.session.add(_post)
-    db.session.commit()
-    return redirect(url_for("posts.edit_blog", post_id=post_id))
-
-
-@posts.route('/blog/edit/<string:post_id>', methods=["GET", "POST"])
-@posts.route('/blog/edit', methods=["POST"])
-@posts.route('/blog/new', methods=["GET", "POST"])
-def edit_blog(post_id=None):
-    form = PostForm()
-    post = None
-    title = "Whats on your mind"
-    if post_id is not None:
-        post = Post.query.filter(Post.id == post_id).first()
-    if post is None:
-        post = Post(status="DRAFT")
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            post_id = update_post(form, post)
-            return redirect(url_for("posts.edit_blog", post_id=post_id))
-
-    if request.method == "GET":
-        form = PostForm(id = post.id,
-                        title = post.title,
-                        body = post.body,
-                        tag_ids = post.all_tag_ids(),
-                        category_id = post.category_id
-                        )
-        title = post.title
-
-    return render_template('edit_blog.html', title=title, form=form)
-
-
-@posts.route('/photo/new', methods=["GET", "POST"])
-@posts.route('/photo/edit', methods=["POST"])
-@posts.route('/photo/edit/<string:photo_id>', methods=["GET", "POST"])
-def edit_photo(photo_id=None):
-    form = PhotoForm()
-    print(form.capture_date)
-    photo = None
-    title = "Whats the pic about"
-    if photo_id is not None:
-        photo = Photograph.query.filter(Photograph.id == photo_id).first()
-    if photo is None:
-        photo = Photograph(status="DRAFT")
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            photo_id = update_photo(form, photo)
-            return redirect(url_for("posts.edit_photo", photo_id=photo_id))
-
-    if request.method == "GET":
-        form = PhotoForm(id = photo.id,
-                        title = photo.title,
-                        photograph_url = photo.photograph_url,
-                        tag_ids = photo.all_tag_ids(),
-                        capture_date=photo.capture_date,
-                        location=photo.location
-                        )
-        title = photo.title
-
-    return render_template('edit_photo.html', title=title, form=form)
-
-
-@posts.route('/photo/publish/<string:photo_id>', methods=["POST"])
-def publish_photo(photo_id):
-    photo = Photograph.query.filter_by(id=photo_id).first()
-    photo.status = "PUBLISHED"
-    photo.href = Post.generate_href(photo.title)
-    photo.published_at = datetime.now()
-    db.session.add(photo)
-    db.session.commit()
-    return redirect("/photography")
-
-
-@posts.route('/photo/unpublish/<string:photo_id>', methods=["POST"])
-def unpublish_photo(photo_id):
-    photo = Photograph.query.filter_by(id=photo_id).first()
-    photo.status = "Draft"
-    photo.published_at = None
-    db.session.add(photo)
-    db.session.commit()
-    return redirect("/photography")
-
-
-@posts.route('/tag/new', methods=["GET", "POST"])
-@posts.route('/tag/edit', methods=["POST"])
-@posts.route('/tag/edit/<string:tag_id>', methods=["GET", "POST"])
-def edit_tag(tag_id=None):
-    form = TagForm()
-    tag = None
-    title = "tag "
-    if tag_id is not None:
-        tag = Tag.query.filter(Tag.id == tag_id).first()
-    if tag is None:
-        tag = Tag()
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            tag_id = update_tag(form, tag)
-            return redirect(url_for("posts.edit_tag", tag_id=tag_id))
-
-    if request.method == "GET":
-        form = TagForm(id=tag.id,
-                       tag_name=tag.tag_name,
-                       category=tag.category,
-                       )
-        title = tag.tag_name
-
-    return render_template('edit_tag.html', title=title, form=form)
-
-
-def update_post(form, _post):
-    _post.title = form.title.data
-    _post.body = form.body.data
-    _post.category_id = form.category_id.data
-
-    db.session.add(_post)
-    db.session.commit()
-    for tag_id in form.tag_ids.data.split(","):
-        stmt = post_tags.insert().values(post_id=_post.id, tag_id=tag_id)
-        db.session.execute(stmt)
-
-    db.session.commit()
-
-    return _post.id
-
-
-def update_photo(form, photo):
-    photo.title = form.title.data
-    photo.photograph_url = form.photograph_url.data
-    photo.capture_date = form.capture_date.data
-    photo.location = form.location.data
-    photo.tags = []
-
-    db.session.add(photo)
-    db.session.commit()
-    db.session.flush()
-
-    for tag_id in form.tag_ids.data.split(","):
-        stmt = photo_tags.insert().values(photograph_id=photo.id, tag_id=tag_id)
-        db.session.execute(stmt)
-
-    db.session.commit()
-
-    return photo.id
-
-
-def update_tag(form, tag):
-    tag.tag_name = form.tag_name.data
-    tag.category = form.category.data
-    if tag.category is None or tag.category == '':
-        tag.category = 'tag'
-
-    db.session.add(tag)
-    db.session.commit()
-
-    return tag.id
+#
+#
+# @posts.route('/blog/publish/<string:post_id>', methods=["POST"])
+# def publish(post_id):
+#     _post = Post.query.filter_by(id=post_id).first()
+#     _post.status = "PUBLISHED"
+#     _post.href = Post.generate_href(_post.title)
+#     _post.published_at = datetime.now()
+#     db.session.add(_post)
+#     db.session.commit()
+#     return render_template('blog_single.html', title="Blog", post=_post)
+#
+#
+# @posts.route('/blog/unpublish/<string:post_id>', methods=["POST"])
+# def unpublish(post_id):
+#     _post = Post.query.filter_by(id=post_id).first()
+#     _post.status = "DRAFT"
+#     # _post.href = Post.generate_href(_post.title)
+#     _post.published_at = None
+#     db.session.add(_post)
+#     db.session.commit()
+#     return redirect(url_for("posts.edit_blog", post_id=post_id))
+#
+#
+# @posts.route('/blog/edit/<string:post_id>', methods=["GET", "POST"])
+# @posts.route('/blog/edit', methods=["POST"])
+# @posts.route('/blog/new', methods=["GET", "POST"])
+# def edit_blog(post_id=None):
+#     form = PostForm()
+#     post = None
+#     title = "Whats on your mind"
+#     if post_id is not None:
+#         post = Post.query.filter(Post.id == post_id).first()
+#     if post is None:
+#         post = Post(status="DRAFT")
+#     if request.method == 'POST':
+#         if form.validate_on_submit():
+#             post_id = update_post(form, post)
+#             return redirect(url_for("posts.edit_blog", post_id=post_id))
+#
+#     if request.method == "GET":
+#         form = PostForm(id = post.id,
+#                         title = post.title,
+#                         body = post.body,
+#                         tag_ids = post.all_tag_ids(),
+#                         category_id = post.category_id
+#                         )
+#         title = post.title
+#
+#     return render_template('edit_blog.html', title=title, form=form)
+#
+#
+# @posts.route('/photo/new', methods=["GET", "POST"])
+# @posts.route('/photo/edit', methods=["POST"])
+# @posts.route('/photo/edit/<string:photo_id>', methods=["GET", "POST"])
+# def edit_photo(photo_id=None):
+#     form = PhotoForm()
+#     print(form.capture_date)
+#     photo = None
+#     title = "Whats the pic about"
+#     if photo_id is not None:
+#         photo = Photograph.query.filter(Photograph.id == photo_id).first()
+#     if photo is None:
+#         photo = Photograph(status="DRAFT")
+#     if request.method == 'POST':
+#         if form.validate_on_submit():
+#             photo_id = update_photo(form, photo)
+#             return redirect(url_for("posts.edit_photo", photo_id=photo_id))
+#
+#     if request.method == "GET":
+#         form = PhotoForm(id = photo.id,
+#                         title = photo.title,
+#                         photograph_url = photo.photograph_url,
+#                         tag_ids = photo.all_tag_ids(),
+#                         capture_date=photo.capture_date,
+#                         location=photo.location
+#                         )
+#         title = photo.title
+#
+#     return render_template('edit_photo.html', title=title, form=form)
+#
+#
+# @posts.route('/photo/publish/<string:photo_id>', methods=["POST"])
+# def publish_photo(photo_id):
+#     photo = Photograph.query.filter_by(id=photo_id).first()
+#     photo.status = "PUBLISHED"
+#     photo.href = Post.generate_href(photo.title)
+#     photo.published_at = datetime.now()
+#     db.session.add(photo)
+#     db.session.commit()
+#     return redirect("/photography")
+#
+#
+# @posts.route('/photo/unpublish/<string:photo_id>', methods=["POST"])
+# def unpublish_photo(photo_id):
+#     photo = Photograph.query.filter_by(id=photo_id).first()
+#     photo.status = "Draft"
+#     photo.published_at = None
+#     db.session.add(photo)
+#     db.session.commit()
+#     return redirect("/photography")
+#
+#
+# @posts.route('/tag/new', methods=["GET", "POST"])
+# @posts.route('/tag/edit', methods=["POST"])
+# @posts.route('/tag/edit/<string:tag_id>', methods=["GET", "POST"])
+# def edit_tag(tag_id=None):
+#     form = TagForm()
+#     tag = None
+#     title = "tag "
+#     if tag_id is not None:
+#         tag = Tag.query.filter(Tag.id == tag_id).first()
+#     if tag is None:
+#         tag = Tag()
+#     if request.method == 'POST':
+#         if form.validate_on_submit():
+#             tag_id = update_tag(form, tag)
+#             return redirect(url_for("posts.edit_tag", tag_id=tag_id))
+#
+#     if request.method == "GET":
+#         form = TagForm(id=tag.id,
+#                        tag_name=tag.tag_name,
+#                        category=tag.category,
+#                        )
+#         title = tag.tag_name
+#
+#     return render_template('edit_tag.html', title=title, form=form)
+#
+#
+# def update_post(form, _post):
+#     _post.title = form.title.data
+#     _post.body = form.body.data
+#     _post.category_id = form.category_id.data
+#
+#     db.session.add(_post)
+#     db.session.commit()
+#     for tag_id in form.tag_ids.data.split(","):
+#         stmt = post_tags.insert().values(post_id=_post.id, tag_id=tag_id)
+#         db.session.execute(stmt)
+#
+#     db.session.commit()
+#
+#     return _post.id
+#
+#
+# def update_photo(form, photo):
+#     photo.title = form.title.data
+#     photo.photograph_url = form.photograph_url.data
+#     photo.capture_date = form.capture_date.data
+#     photo.location = form.location.data
+#     photo.tags = []
+#
+#     db.session.add(photo)
+#     db.session.commit()
+#     db.session.flush()
+#
+#     for tag_id in form.tag_ids.data.split(","):
+#         stmt = photo_tags.insert().values(photograph_id=photo.id, tag_id=tag_id)
+#         db.session.execute(stmt)
+#
+#     db.session.commit()
+#
+#     return photo.id
+#
+#
+# def update_tag(form, tag):
+#     tag.tag_name = form.tag_name.data
+#     tag.category = form.category.data
+#     if tag.category is None or tag.category == '':
+#         tag.category = 'tag'
+#
+#     db.session.add(tag)
+#     db.session.commit()
+#
+#     return tag.id
