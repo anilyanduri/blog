@@ -28,8 +28,8 @@
     <link rel="stylesheet" href='{{ url_for("static", filename="css/style.css")}}'>
 
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
 
     <link rel="stylesheet" href='{{ url_for("static", filename="css/flaticon.css")}}'>
@@ -44,9 +44,9 @@
         </div>
         <div class="container">
             {% if form.id.data is none or form.id.data == '' %}
-            <form  action="/tag/new" method="post">
+            <form  action="/admin/tag/new" method="post">
             {% else %}
-            <form action="/tag/edit/{{ form.id.data }}" method="post">
+            <form action="/admin/tag/edit/{{ form.id.data }}" method="post">
             {% endif %}
                 {{ form.hidden_tag() }}
                 <div class="form-group">
@@ -57,7 +57,7 @@
                 </div>
                 <div class="form-group">
                     {{ wtf.form_field(form.submit) }}
-                    <a href="/tag/new">New tag</a>
+                    <a href="/admin/tag/new">New tag</a>
                 </div>
             </form>
         </div>

@@ -31,8 +31,8 @@
     <!--<script src='{{url_for("static", filename="js/multiselect/jquery-2.2.3.js")}}'></script>-->
     <!--<script src='{{url_for("static", filename="js/jquery-migrate-3.0.1.min.js")}}'></script>-->
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
     <script src="{{ url_for('static', filename='js/multiselect/jquery.autocomplete.multiselect.js')}}"></script>
     <script >
@@ -108,8 +108,8 @@
                     {{ wtf.form_field(form.location) }}
                 </div>
                 <div class="form-group">
-                    <a href="/photo/new">New Photo</a>
-                    <a href="/photos/list/all">All Photo</a>
+                    <a href="/admin//photo/new">New Photo</a>
+                    <a href="/admin/photos/list/all">All Photo</a>
                     <input class="btn btn-default" type="button" id="preview_button" value="Preview">
                     {{ wtf.form_field(form.submit) }}
                 </div>

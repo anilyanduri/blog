@@ -24,9 +24,9 @@
                             </a>
                             <a href="{{url_for('posts.edit_photo', photo_id=photo.id)}}" >Edit</a>
                             {% if photo.status != "PUBLISHED" %}
-                            <a href="javascript:do_post('/photo/publish/{{photo.id}}')" >Publish</a>
+                            <a href="javascript:do_post('/admin/photo/publish/{{photo.id}}')" >Publish</a>
                             {% else %}
-                            <a href="javascript:do_post('/photo/unpublish/{{photo.id}}')" >Un Publish</a>
+                            <a href="javascript:do_post('/admin/photo/unpublish/{{photo.id}}')" >Un Publish</a>
                             {% endif %}
                         </div>
                         {% endfor %}
