@@ -107,9 +107,9 @@ def photography():
                            first_page=first_page, last_page=last_page, page_nos=page_nos, page_no=page_no)
 
 
-@posts.route('/travel')
-def travel():
-    return render_template('travel.html', title="Travel Blog")
+# @posts.route('/travel')
+# def travel():
+#     return render_template('travel.html', title="Travel Blog")
 
 
 @posts.route('/contact', methods=["POST", "GET"])
@@ -216,7 +216,7 @@ def verify_recaptcha(captcha_response_code):
 #  admin related stuff
 
 
-@posts.route('/blog/list/all', methods=['GET'])
+@posts.route('/admin/blog/list/all', methods=['GET'])
 def list_all():
     statues = ["PUBLISHED", "DRAFT"]
     page = request.args.get('page', 1, type=int)
@@ -224,7 +224,7 @@ def list_all():
     return render_template('list.html', posts=_posts, title="All articles")
 
 
-@posts.route('/photos/list/all', methods=['GET'])
+@posts.route('/admin/photos/list/all', methods=['GET'])
 def all_photos():
     statues = ["PUBLISHED", "DRAFT"]
     # page = request.args.get('page', 1, type=int)
@@ -233,7 +233,7 @@ def all_photos():
     return render_template('photo_list.html', photos=photos, title="All articles")
 
 
-@posts.route('/blog/publish/<string:post_id>', methods=["POST"])
+@posts.route('/admin/blog/publish/<string:post_id>', methods=["POST"])
 def publish(post_id):
     _post = Post.query.filter_by(id=post_id).first()
     _post.status = "PUBLISHED"
@@ -244,7 +244,7 @@ def publish(post_id):
     return render_template('blog_single.html', title="Blog", post=_post)
 
 
-@posts.route('/blog/unpublish/<string:post_id>', methods=["POST"])
+@posts.route('/admin/blog/unpublish/<string:post_id>', methods=["POST"])
 def unpublish(post_id):
     _post = Post.query.filter_by(id=post_id).first()
     _post.status = "DRAFT"
@@ -255,9 +255,9 @@ def unpublish(post_id):
     return redirect(url_for("posts.edit_blog", post_id=post_id))
 
 
-@posts.route('/blog/edit/<string:post_id>', methods=["GET", "POST"])
-@posts.route('/blog/edit', methods=["POST"])
-@posts.route('/blog/new', methods=["GET", "POST"])
+@posts.route('/admin/blog/edit/<string:post_id>', methods=["GET", "POST"])
+@posts.route('/admin/blog/edit', methods=["POST"])
+@posts.route('/admin/blog/new', methods=["GET", "POST"])
 def edit_blog(post_id=None):
     form = PostForm()
     post = None
@@ -283,9 +283,9 @@ def edit_blog(post_id=None):
     return render_template('edit_blog.html', title=title, form=form)
 
 
-@posts.route('/photo/new', methods=["GET", "POST"])
-@posts.route('/photo/edit', methods=["POST"])
-@posts.route('/photo/edit/<string:photo_id>', methods=["GET", "POST"])
+@posts.route('/admin/photo/new', methods=["GET", "POST"])
+@posts.route('/admin/photo/edit', methods=["POST"])
+@posts.route('/admin/photo/edit/<string:photo_id>', methods=["GET", "POST"])
 def edit_photo(photo_id=None):
     form = PhotoForm()
     print(form.capture_date)
@@ -313,7 +313,7 @@ def edit_photo(photo_id=None):
     return render_template('edit_photo.html', title=title, form=form)
 
 
-@posts.route('/photo/publish/<string:photo_id>', methods=["POST"])
+@posts.route('/admin/photo/publish/<string:photo_id>', methods=["POST"])
 def publish_photo(photo_id):
     photo = Photograph.query.filter_by(id=photo_id).first()
     photo.status = "PUBLISHED"
@@ -321,22 +321,22 @@ def publish_photo(photo_id):
     photo.published_at = datetime.now()
     db.session.add(photo)
     db.session.commit()
-    return redirect("/photography")
+    return redirect("/admin/photography")
 
 
-@posts.route('/photo/unpublish/<string:photo_id>', methods=["POST"])
+@posts.route('/admin/photo/unpublish/<string:photo_id>', methods=["POST"])
 def unpublish_photo(photo_id):
     photo = Photograph.query.filter_by(id=photo_id).first()
     photo.status = "Draft"
     photo.published_at = None
     db.session.add(photo)
     db.session.commit()
-    return redirect("/photography")
+    return redirect("/admin/photography")
 
 
-@posts.route('/tag/new', methods=["GET", "POST"])
-@posts.route('/tag/edit', methods=["POST"])
-@posts.route('/tag/edit/<string:tag_id>', methods=["GET", "POST"])
+@posts.route('/admin/tag/new', methods=["GET", "POST"])
+@posts.route('/admin/tag/edit', methods=["POST"])
+@posts.route('/admin/tag/edit/<string:tag_id>', methods=["GET", "POST"])
 def edit_tag(tag_id=None):
     form = TagForm()
     tag = None
