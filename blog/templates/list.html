@@ -26,14 +26,14 @@
                                     <div class="half">
                                         <p>
                                             {% if post.status != "PUBLISHED" %}
-                                            <form method="POST" action="/blog/publish/{{post.id}}">
+                                            <form method="POST" action="/admin/blog/publish/{{post.id}}">
                                                 <a href="/admin/blog/edit/{{post.id}}" class="btn btn-primary p-3 px-xl-4 py-xl-3">
                                                     Edit Blog
                                                 </a>
                                                 <input value="Publish" type="submit" class="btn btn-primary p-3 px-xl-4 py-xl-3"/>
                                             </form>
                                             {% else %}
-                                            <form method="POST" action="/blog/unpublish/{{post.id}}">
+                                            <form method="POST" action="/admin/blog/unpublish/{{post.id}}">
                                                 <a href="/admin/blog/edit/{{post.id}}" class="btn btn-primary p-3 px-xl-4 py-xl-3">
                                                     Edit Blog
                                                 </a>
