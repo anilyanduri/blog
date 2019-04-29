@@ -82,9 +82,9 @@
         </div>
         <div class="container">
             {% if form.id.data is none or form.id.data == '' %}
-            <form  action="/blog/new" method="post">
+            <form  action="/admin/blog/new" method="post">
             {% else %}
-            <form action="/blog/edit/{{ form.id.data }}" method="post">
+            <form action="/admin/blog/edit/{{ form.id.data }}" method="post">
             {% endif %}
                 {{ form.hidden_tag() }}
                 <div class="form-group">
