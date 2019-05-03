@@ -123,7 +123,7 @@ class Post(db.Model):
     __tablename__ = "posts"
 
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(5000))
+    body = db.Column(db.TEXT())
     title = db.Column(db.String(250))
     href = db.Column(db.String(250))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
