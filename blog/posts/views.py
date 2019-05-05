@@ -189,7 +189,7 @@ def blog_list():
 @posts.route('/blog/<string:post_href>')
 def blog(post_href):
     _post = Post.query.filter_by(href=post_href).first()
-    return render_template('blog_single.html', title="Blog", post=_post)
+    return render_template('blog_single.html', title="Blog", post=_post, meta_tags=json.loads(_post.meta_tags))
 
 
 def create_contact_request(form):
@@ -276,7 +276,8 @@ def edit_blog(post_id=None):
                         title = post.title,
                         body = post.body,
                         tag_ids = post.all_tag_ids(),
-                        category_id = post.category_id
+                        category_id = post.category_id,
+                        meta_tags = post.meta_tags
                         )
         title = post.title
 
@@ -364,6 +365,7 @@ def update_post(form, _post):
     _post.title = form.title.data
     _post.body = form.body.data
     _post.category_id = form.category_id.data
+    _post.meta_tags = {} if form.meta_tags.data is None else form.meta_tags.data
 
     db.session.add(_post)
     db.session.commit()

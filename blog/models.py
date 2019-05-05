@@ -129,6 +129,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     category_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
     status = db.Column(db.String(20))
+    meta_tags = db.Column(db.JSON())
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
     published_at = db.Column(db.DateTime(timezone=True))

@@ -72,3 +72,10 @@
 {% block footer %}
     {% include 'footer.html' %}
 {% endblock %}
+{% block header_js %}
+    {% if meta_tags%}
+    {% for key, value in meta_tags.items() %}
+        <meta name="{{key}}" content="{{value}}">
+    {% endfor %}
+    {% endif %}
+{% endblock %}
