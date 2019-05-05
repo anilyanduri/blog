@@ -13,7 +13,7 @@ class PostForm(FlaskForm):
     id = HiddenField("id")
     title = StringField("Title", validators=[DataRequired()])
     body = TextAreaField("Blog Post", validators=[DataRequired()], render_kw={'rows': 30})
-    meta_tags = TextAreaField("Meta tags")
+    meta_tags = StringField("Meta tags")
     tag_ids = HiddenField("tag_ids")
     category_id = HiddenField("category_id")
     submit = SubmitField('Save Blog')
