@@ -1,11 +1,17 @@
 from . import posts
 from blog import db
 from blog.constants import rECAPTCHA_SITE_KEY_V2, rECAPTCHA_SECRET_V2, rECAPTCHA_SITE_KEY_V3
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, send_from_directory
 from forms import PostForm, PhotoForm, TagForm, ContactMeForm
 from blog.models import Post, Tag, post_tags, photo_tags, Photograph, ContactRequest
 from datetime import datetime
 import json, requests
+
+
+@posts.route('/robots.txt')
+@posts.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory('static', request.path[1:])
 
 
 @posts.app_context_processor
