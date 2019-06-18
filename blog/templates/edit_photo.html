@@ -84,9 +84,9 @@
         </div>
         <div class="container">
             {% if form.id.data is none or form.id.data == '' %}
-            <form  action="/photo/new" method="post">
+            <form  action="/admin/photo/new" method="post">
             {% else %}
-            <form action="/photo/edit/{{ form.id.data }}" method="post">
+            <form action="/admin/photo/edit/{{ form.id.data }}" method="post">
             {% endif %}
                 {{ form.hidden_tag() }}
                 <div class="form-group">
@@ -108,7 +108,7 @@
                     {{ wtf.form_field(form.location) }}
                 </div>
                 <div class="form-group">
-                    <a href="/admin//photo/new">New Photo</a>
+                    <a href="/admin/photo/new">New Photo</a>
                     <a href="/admin/photos/list/all">All Photo</a>
                     <input class="btn btn-default" type="button" id="preview_button" value="Preview">
                     {{ wtf.form_field(form.submit) }}
